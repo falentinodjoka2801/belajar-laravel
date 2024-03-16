@@ -14,7 +14,6 @@ class PostController extends Controller
 {
     public function index(): View{
         $posts  =   Post::latest()->paginate(5);
-        var_dump($posts); exit;
         return view('posts.index', compact('posts'));
     }
     public function create(): View{
@@ -37,5 +36,9 @@ class PostController extends Controller
         ]);
 
         return redirect()->route('posts.index')->with(['success' => 'Data berhasil disimpan!']);
+    }
+    public function show(string $id): View{
+        $post   =   Post::findOrFail($id);
+        return view('posts.show', compact('post'));
     }
 }
