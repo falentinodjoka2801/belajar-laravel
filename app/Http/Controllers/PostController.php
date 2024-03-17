@@ -7,7 +7,7 @@ use App\Models\Post;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PostController extends Controller
@@ -40,5 +40,35 @@ class PostController extends Controller
     public function show(string $id): View{
         $post   =   Post::findOrFail($id);
         return view('posts.show', compact('post'));
+    }
+    public function edit(string $id): View{
+        $post   =   Post::findOrFail($id);
+        return view('posts.edit', compact('post'));
+    }
+    public function update(Request $request, string $id): RedirectResponse{
+        $this->validate($request, [
+            'image'     =>  'image|mimes:jpg,jpeg,png|max:2048',
+            'title'     =>  'required|min:5',
+            'content'   =>  'required|min:10'
+        ]);
+
+        $post   =   Post::findOrFail($id);
+
+        $dataUpdatePost     =   [
+            'title'     =>  $request->title,
+            'content'   =>  $request->content
+        ];
+        if($request->hasFile('image')){
+            $image  =   $request->file('image');
+            $image->storeAs('public/posts', $image->hashName());
+
+            Storage::delete('public/posts/'.$post->image);
+
+            $dataUpdatePost['image']    =   $image->hashName();
+        }
+
+        $post->update($dataUpdatePost);
+
+        return redirect()->route('posts.index')->with(['success' => 'Data berhasil diubah!']);
     }
 }
