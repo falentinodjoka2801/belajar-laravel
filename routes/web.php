@@ -2,6 +2,7 @@
 
 #Controllers
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\Mahasiswa;
 
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,4 @@ Route::get('/', function () {
 });
 
 Route::resource('/posts', PostController::class);
+Route::resource('/mahasiswa', Mahasiswa::class);
