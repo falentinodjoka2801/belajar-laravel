@@ -20,7 +20,7 @@
                 <div class="col">
                     <h5>Mahasiswa</h5>
                 </div>
-                <div class="col text-right">
+                <div class="col text-left">
                     <a href="{{route('mahasiswa.create')}}">
                         <button class="btn btn-success">Mahasiswa Baru</button>
                     </a>

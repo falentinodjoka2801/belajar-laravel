@@ -23,3 +23,10 @@ Route::get('/', function () {
 
 Route::resource('/posts', PostController::class);
 Route::resource('/mahasiswa', Mahasiswa::class);
+
+Route::group([
+    'prefix'    =>  'ajax',
+    'namespace' =>  'App\Http\Controllers'
+], function(){
+    Route::get('/konsentrasi', 'AJAX@getKonsentrasiProgramStudy');
+});

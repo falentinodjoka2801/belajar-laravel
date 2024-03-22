@@ -17,7 +17,7 @@
             return $view;
         }
         public function create(): View{
-            $listProgramStudy   =   ProgramStudy::latest();
+            $listProgramStudy   =   DB::select('select prodiKode, prodiNamaResmi from program_studi order by prodiNamaResmi asc');
             return view('mahasiswa.create', compact(['listProgramStudy']));
         }
     }
