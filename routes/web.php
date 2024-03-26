@@ -1,6 +1,8 @@
 <?php
 
 #Controllers
+
+use App\Http\Controllers\Home;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\Mahasiswa;
 
@@ -17,10 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::resource('/posts', PostController::class);
 Route::resource('/mahasiswa', Mahasiswa::class);
 
@@ -30,3 +28,5 @@ Route::group([
 ], function(){
     Route::get('/konsentrasi', 'AJAX@getKonsentrasiProgramStudy');
 });
+
+Route::get('/', [Home::class, 'dashboard']);
