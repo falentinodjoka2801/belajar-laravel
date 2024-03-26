@@ -3,16 +3,21 @@
 
     #Models
     use App\Models\ProgramStudy;
+    use App\Models\Mahasiswa as MahasiswaModel;
 
+    use Illuminate\Database\QueryException;
     use Illuminate\Support\Facades\DB;
     use Illuminate\View\View;
 
     class Mahasiswa extends Controller{
         public function index(): View{
+            $title          =   'List Daftar Mahasiswa';
             $stambuk        =   isset($_GET['stambuk'])? $_GET['stambuk'] : null;
 
-            $listMahasiswa  =   DB::select('select mhsNiu, mhsNama, mhsAngkatan from mahasiswa where mhsAngkatan=:id limit 10', ['id' => $stambuk]);
-            $view           =   view('mahasiswa.index', compact(['listMahasiswa']));
+            $builder        =   DB::table('mahasiswa');
+            $builder->orderBy('mhsNama', 'asc');
+            $listMahasiswa  =   $builder->limit(10)->get();
+            $view           =   view('mahasiswa.index', compact(['listMahasiswa', 'title']));
 
             return $view;
         }
